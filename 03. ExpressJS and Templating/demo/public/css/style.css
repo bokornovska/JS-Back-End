@@ -1,3 +1,20 @@
 body{
-    background-color: aqua;
+    background-color: rgb(231, 189, 236);
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+h1{
+    text-align: center;
+}
+li a{
+text-decoration: none;
+
+}
+li{
+    display:flex;
+    padding-right: 20px;
+}
+ul{
+    display:flex;
 }
