@@ -1,2 +1,2 @@
 # JS-Back-End
- JS Back-End Softuni
+ JS Back-End Softuni Course
