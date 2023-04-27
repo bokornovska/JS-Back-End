@@ -11,21 +11,27 @@ async function main() {
     console.log('Database connected');
 
     const cats = await readCats();
-    
+
     cats.forEach(cat => {
         cat.makesound();
         console.log(cat.info);
     });
 
+    let oneCat = await readOneCat();
+    console.log(oneCat);
+
+    // await updateCat('Nav', 'Navuhodonosor');
+
     // await saveCat('', 4, 'angora'); - name is required
     // await saveCat('Chan', 25, 'siamec'); - validation failed;
 
+    await deleteCat('Garry');
 };
 
 async function saveCat(name, age, breed) {
 
-    await Cat.create( {
-        name, 
+    await Cat.create({
+        name,
         age,
         breed,
     });
@@ -45,5 +51,21 @@ async function readCats() {
     console.log(cats);
     return cats;
 }
+
+async function readOneCat(name) {
+    // const cat = await Cat.findOne({ breed: 'angora' }); 
+    const cat = await Cat.findById("644a27f9aa43d5379a0a6e98");
+    return cat;
+};
+
+async function updateCat(name, newName) {
+    await Cat.updateOne({ name }, { name: newName });
+};
+
+async function deleteCat(name) {
+    await Cat.deleteOne({ name });
+};
+
+
 
 main();
