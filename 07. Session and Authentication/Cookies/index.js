@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 
+const dataService = require('./dataService');
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
@@ -17,13 +18,16 @@ app.get('/', (req, res) => {
     res.send(`
     <h1>Hello from Homepage</h1>
     <p><a href="/login">Login</a></p>
+    <p><a href="/register">Register</a></p>
     <p><a href="/profile">Profile</a></p>
 
     `);
 })
 
 app.get('/login', (req, res) => {
-    res.send(`<form method ="POST">
+    res.send(`
+    <h1>Log In</h1>
+    <form method ="POST">
     <label for="username">Username</label>
     <input type="text" id="username" name="username" />
 
@@ -35,22 +39,53 @@ app.get('/login', (req, res) => {
 </form>`);
 });
 
-app.post('/login', (req, res) => {
+app.get('/register', (req, res) => {
+    res.send(`
+    <h1>Sign Up</h1>
+    <form method ="POST">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" />
+
+    <label for="password"></label>
+    <input type="password" id="password" name="password" />
+
+    <input type="submit" value="register" />
+
+</form>`)
+});
+
+app.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
-    if (username == 'Ivan' && password == 'V') {
-        const data = {
-            username: "Ivan",
-            age: 25
+    await dataService.registerUser(username, password);
+
+    res.redirect('/login');
+
+
+})
+
+app.post('/login', async (req, res) => {
+
+    const { username, password } = req.body;
+
+    try {
+        const user = await dataService.loginUser(username, password);
+
+        const authData = {
+            username: user.username,
         }
 
-        res.cookie('auth', JSON.stringify(data));
-        req.session.username = 'Ivan';
-        req.session.privateInfo = 'Some private info';
+        res.cookie('auth', JSON.stringify(authData));
+        req.session.username = user.username;
+        req.session.privateInfo = user.password;
         return res.redirect('/')
+    } catch (error) {
+        console.log(error)
+        res.status(401).end();
     }
 
-    res.status(401).end();
+
+
 });
 
 app.get('/profile', (req, res) => {

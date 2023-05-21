@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "username": "Gosho",
+      "password": "$2b$10$iYeSyavF4Pi8UttF8YKU.ul6Y/DQ6HPD9PK5VtIt3HNj37KGdaG9a"
+    },
+    {
+      "username": "asd",
+      "password": "$2b$10$JBcr3wJAQ.n5aYAno7YHheSFsaJpY5TzNKDUYRiAoNP.W7K8zAQae"
+    },
+    {
+      "username": "bobo",
+      "password": "$2b$10$MaT0u9ZqP//V8loeXitcDeBGnmZDrG3nCt6RCgZ8FgU4UTk2KpfPG"
+    }
+  ]
+}
