@@ -20,6 +20,8 @@ app.get('/', (req, res) => {
     <p><a href="/login">Login</a></p>
     <p><a href="/register">Register</a></p>
     <p><a href="/profile">Profile</a></p>
+    <p><a href="/logout">Logout</a></p>
+
 
     `);
 })
@@ -108,4 +110,8 @@ app.get('/profile', (req, res) => {
 
 });
 
+app.get('/logout', (req,res) => {
+    res.clearCookie('auth');
+    res.redirect('/')
+})
 app.listen(5000, () => console.log('Server is listening on port 5000...'));
