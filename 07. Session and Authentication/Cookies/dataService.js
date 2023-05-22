@@ -1,6 +1,7 @@
 const db = require("./db.json");
 const fs = require('fs/promises');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 async function saveDB() {
     const data = JSON.stringify(db, null, 2)
@@ -35,5 +36,12 @@ exports.loginUser = async (username, password) => {
     throw 'No such username or password!';
    }
 
-   return user;
+   const payload = {username: user.username};
+   const secret = "MySecret";
+   const options = {expiresIn: '1h'};
+
+   const token = jwt.sign(payload, secret, options);
+
+   console.log(token);
+   return token;
 }
