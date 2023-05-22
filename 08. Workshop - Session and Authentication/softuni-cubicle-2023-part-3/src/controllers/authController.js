@@ -1,9 +1,23 @@
 const router = require('express').Router();
 
 const authService = require('../services/authService');
+
 router.get('/login', (req,res) => {
     res.render('auth/login');
 });
+
+router.post('/login', async(req,res) => {
+    const {username, password} = req.body;
+try {
+    
+    const user = await authService.login(username, password);
+    // console.log(user);
+} catch (error) {
+    console.log(error);
+    return res.redirect('/');
+}
+    res.redirect('/');
+})
 
 router.get('/register', (req,res) => {
     res.render('auth/register');

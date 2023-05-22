@@ -23,6 +23,11 @@ userSchema.pre('save', function(next) {
         });
 });
 
+userSchema.method('comparePassword',  function(password) {
+    return bcrypt.compare(password, this.password);
+
+})
+
 
 const User = mongoose.model('User', userSchema);
 
