@@ -2,37 +2,39 @@ const router = require('express').Router();
 
 const authService = require('../services/authService');
 
-router.get('/login', (req,res) => {
+router.get('/login', (req, res) => {
     res.render('auth/login');
 });
 
-router.post('/login', async(req,res) => {
-    const {username, password} = req.body;
-try {
-    
-    const token = await authService.login(username, password);
-    console.log(token);
-} catch (error) {
-    console.log(error);
-    return res.redirect('/');
-}
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+
+        const token = await authService.login(username, password);
+        res.cookie('auth', token, { httpOnly: true });
+
+        console.log(token);
+    } catch (error) {
+        console.log(error);
+
+    }
     res.redirect('/');
 })
 
-router.get('/register', (req,res) => {
+router.get('/register', (req, res) => {
     res.render('auth/register');
 });
 
-router.post('/register', async (req,res) => {
-    const {username, password, repeatPassword} = req.body;
+router.post('/register', async (req, res) => {
+    const { username, password, repeatPassword } = req.body;
 
-    if(password !== repeatPassword) {
+    if (password !== repeatPassword) {
         return res.redirect('/404');
     }
 
     const existingUser = await authService.getUserByUsername(username);
 
-    if(existingUser) {
+    if (existingUser) {
         return res.redirect('/404');
     }
 
