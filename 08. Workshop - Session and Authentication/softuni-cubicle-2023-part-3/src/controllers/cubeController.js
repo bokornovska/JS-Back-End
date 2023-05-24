@@ -1,11 +1,16 @@
 const Cube = require('../models/Cube');
 const Accessory = require('../models/Accessory');
 
+
 exports.getCreateCube = (req, res) => {
     res.render('create');
 };
 
 exports.postCreateCube = async (req, res) => {
+
+    console.log(req.user);
+
+
     const { name, description, imageUrl, difficultyLevel } = req.body;
 
     let cube = new Cube({ name, description, imageUrl, difficultyLevel });
@@ -28,7 +33,7 @@ exports.getDetails = async (req, res) => {
 exports.getAttachAccessory = async (req, res) => {
     const cube = await Cube.findById(req.params.cubeId).lean();
     const accessories = await Accessory.find({ _id: { $nin: cube.accessories } }).lean();
-    
+
     res.render('cube/attach', { cube, accessories });
 };
 
