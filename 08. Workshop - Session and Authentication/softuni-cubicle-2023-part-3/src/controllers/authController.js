@@ -8,18 +8,17 @@ router.get('/login', (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
+
     try {
-
         const token = await authService.login(username, password);
+
         res.cookie('auth', token, { httpOnly: true });
-
-        console.log(token);
-    } catch (error) {
-        console.log(error);
-
+    } catch (err) {
+        console.log(err);
     }
+
     res.redirect('/');
-})
+});
 
 router.get('/register', (req, res) => {
     res.render('auth/register');
@@ -43,7 +42,12 @@ router.post('/register', async (req, res) => {
     console.log(user);
 
     res.redirect('/login');
+});
 
-})
+router.get('/logout', (req, res) => {
+    res.clearCookie('auth');
+
+    res.redirect('/');
+});
 
 module.exports = router;

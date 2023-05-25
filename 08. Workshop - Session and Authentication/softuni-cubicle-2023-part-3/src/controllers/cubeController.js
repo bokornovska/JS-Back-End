@@ -1,21 +1,22 @@
 const Cube = require('../models/Cube');
 const Accessory = require('../models/Accessory');
-
 const cubeService = require('../services/cubeService');
-const cubeUtils = require('../utils/cubeUils');
+const cubeUtils = require('../utils/cubeUtils');
 
 exports.getCreateCube = (req, res) => {
-    res.render('create');
+    res.render('cube/create');
 };
 
 exports.postCreateCube = async (req, res) => {
-
-    console.log(req.user);
-
-
     const { name, description, imageUrl, difficultyLevel } = req.body;
 
-    let cube = new Cube({ name, description, imageUrl, difficultyLevel });
+    let cube = new Cube({
+        name,
+        description,
+        imageUrl,
+        difficultyLevel,
+        owner: req.user._id
+    });
 
     await cube.save();
 
@@ -23,13 +24,17 @@ exports.postCreateCube = async (req, res) => {
 };
 
 exports.getDetails = async (req, res) => {
-    const cube = await Cube.findById(req.params.cubeId).populate('accessories').lean();
+    const cube = await Cube.findById(req.params.cubeId)
+        .populate('accessories')
+        .lean();
 
     if (!cube) {
         return res.redirect('/404');
     }
 
-    res.render('cube/details', { cube });
+    const isOwner = cubeUtils.isOwner(req.user, cube);
+
+    res.render('cube/details', { cube, isOwner });
 };
 
 exports.getAttachAccessory = async (req, res) => {
@@ -49,20 +54,39 @@ exports.postAttachAccessory = async (req, res) => {
     res.redirect(`/cubes/${cube._id}/details`);
 };
 
-
-
 exports.getEditCube = async (req, res) => {
-
     const cube = await cubeService.getOne(req.params.cubeId).lean();
+    const difficultyLevels = cubeUtils.generateDifficultyLevels(cube.difficultyLevel);
+
+    if (!cubeUtils.isOwner(req.user, cube)) {
+        return res.redirect('/404');
+    }
     
-    const difficultyLevel = cubeUtils.generateDifficultyLevels(cube.difficultyLevel);
+    res.render('cube/edit', { cube, difficultyLevels });
+};
 
+exports.postEditCube = async (req, res) => {
+    const { name, description, imageUrl, difficultyLevel } = req.body;
 
-    res.render('cube/edit', { cube, difficultyLevel });
+    await cubeService.update(req.params.cubeId, {
+        name,
+        description,
+        imageUrl,
+        difficultyLevel,
+    });
+
+   res.redirect(`/cubes/${req.params.cubeId}/details`); 
 };
 
 exports.getDeleteCube = async (req, res) => {
     const cube = await cubeService.getOne(req.params.cubeId).lean();
+    const difficultyLevels = cubeUtils.generateDifficultyLevels(cube.difficultyLevel);
 
-    res.render('cube/delete', { cube });
+    res.render('cube/delete', { cube, difficultyLevels })
+};
+
+exports.postDeleteCube = async (req, res) => {
+    await cubeService.delete(req.params.cubeId);
+
+    res.redirect('/');
 };
