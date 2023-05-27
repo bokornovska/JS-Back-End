@@ -3,6 +3,7 @@ const config = require('../config');
 const jwt = require('../lib/jsonwebtoken');
 const AppError = require('../utils/AppError');
 
+
 exports.getUserByUsername = (username) => User.findOne({ username });
 
 exports.register = (username, password) => User.create({ username, password });
