@@ -13,17 +13,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     }
-}, {
-    virtuals: {
-        repeatPassword: {
-            set(value){
-                if(this.password !== value){
-                    throw new mongoose.Error('Password missmatch')
-                }
-            }
-        }
-    }
-});
+}, 
+// {
+//     virtuals: {
+//         repeatPassword: {
+//             set(value) {
+//                 if (this.password !== value) {
+//                     throw new mongoose.Error('Password missmatch')
+//                 }
+//             }
+//         }
+//     }
+// }
+);
 
 const User = mongoose.model('User', userSchema);
 
