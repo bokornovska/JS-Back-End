@@ -35,6 +35,8 @@ exports.register = async (username, email, password, repeatPassword) => {
 
 
     await User.create({ username, email, password: hashedPassword });
+
+    return this.login(email, password);
 }
 
 // ------------------------------------LOGIN----------------------------------

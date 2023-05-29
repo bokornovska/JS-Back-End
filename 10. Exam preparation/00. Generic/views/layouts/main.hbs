@@ -17,7 +17,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="#">All Crypto</a></li>
                 <li><a href="#">Search</a></li>
-                
+
                 {{#if isAuthenticated}}
                 <li><a href="#">Create Offer</a></li>
                 <li><a href="/logout">Logout</a></li>
@@ -31,8 +31,19 @@
         </nav>
     </header>
 
+    <!-- In case of error, you should display div with class "errorContainer" -->
+    <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
+
+    {{#if error}}
+    <div>
+        <div class="errorContainer">
+            <p>{{error}}</p>
+        </div>
+    </div>
+    {{/if}}
+
     {{{body}}}
-    
+
     <footer>
         <p>Back-End 2022</p>
     </footer>

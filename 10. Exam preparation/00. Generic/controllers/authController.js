@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const authService = require('../services/authService');
 const { isAuth } = require('../middlewares/authMiddleware');
+const { getErrorMessage } = require('../utils/errorUtils');
 
 // --------------------------------- REGISTER -----------------------------------------------
 
@@ -13,9 +14,16 @@ router.post('/register', async (req, res) => {
 
     const { username, email, password, repeatPassword } = req.body;
 
-    await authService.register(username, email, password, repeatPassword);
+    try {
 
-    // TODO login automatically
+        const token = await authService.register(username, email, password, repeatPassword);
+
+        res.cookie('auth', token);
+        res.redirect('/');
+
+    } catch (error) {
+        res.status(400).render('auth/register', { error: getErrorMessage(error) })
+    }
 
     res.redirect('/');
 });
@@ -30,12 +38,15 @@ router.post('/login', async (req, res) => {
 
     const { email, password } = req.body;
 
-    const token = await authService.login(email, password);
+    try {
+        const token = await authService.login(email, password);
 
-    res.cookie('auth', token);
+        res.cookie('auth', token);
+        res.redirect('/');
 
-    res.redirect('/');
-
+    } catch (error) {
+        return res.status(404).render('auth/login', { error: getErrorMessage(error) })
+    }
 
 });
 
