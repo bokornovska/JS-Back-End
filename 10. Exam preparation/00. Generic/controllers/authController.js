@@ -25,7 +25,6 @@ router.post('/register', async (req, res) => {
         res.status(400).render('auth/register', { error: getErrorMessage(error) })
     }
 
-    res.redirect('/');
 });
 
 
