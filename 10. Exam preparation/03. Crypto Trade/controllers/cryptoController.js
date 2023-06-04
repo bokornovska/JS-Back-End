@@ -23,6 +23,14 @@ router.get('/:cryptoId/details', async (req, res) => {
     const isOwner = crypto.owner == req.user?._id;
 
     res.render('crypto/details', { crypto, isOwner });
+});
+
+// --------------------------------BUY--------------------------------------
+
+router.get('/:cryptoId/buy', isAuth, async (req, res) => {
+    await cryptoService.buy(req.user._id, req.params.cryptoId);
+
+    res.redirect(`/crypto/${req.params.cryptoId}/details`)
 })
 
 // ------------------------CREATE-------------------------------------------
