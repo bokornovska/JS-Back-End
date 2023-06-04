@@ -5,6 +5,18 @@ const cryptoService = require('../services/cryptoService');
 
 const {getErrorMessage} = require('../utils/errorUtils');
 
+// ----------------------CATALOG-------------------------------------------
+
+router.get('/catalog', async (req,res) => {
+
+    const crypto = await cryptoService.getAll();
+
+    res.render('crypto/catalog', {crypto});
+})
+
+
+
+// ------------------------CREATE-------------------------------------------
 router.get('/create', isAuth, (req,res) => {
     res.render('crypto/create');
 });
