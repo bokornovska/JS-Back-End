@@ -1,41 +1,45 @@
 const mongoose = require('mongoose');
 
-const cryptoSchema = new mongoose.Schema({
+const gameSchema = new mongoose.Schema({
     name: {
         type: String,
-        minLength:2,
+        // minLength:2,
         required: true,
     },
     image: {
         type: String,
         required: true,
-        validate: /^https?:\/\//,
+        // validate: /^https?:\/\//,
     },
     price: {
         type: Number,
-        min:0,
+        // min:0,
         required: true,
     },
     description: {
         type: String,
-        minLength:10,
+        // minLength:10,
         required: true,
     },
-    paymentMethod: {
+    genre: {
+        type:String,
+        required: true,
+    },
+    platform: {
         type: String,
-        enum: ['crypto-wallet', 'credit-card', 'debit-card', 'paypal'],
+        enum: ["PC", "Nintendo", "PS4", "PS5", "XBOX"],
         required: true,
     },
     owner: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
-    buyers: [{
+    boughtBy: [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
     }]
 });
 
-const Crypto = mongoose.model('Crypto', cryptoSchema);
+const Game = mongoose.model('Game', gameSchema);
 
-module.exports = Crypto;
+module.exports = Game;
