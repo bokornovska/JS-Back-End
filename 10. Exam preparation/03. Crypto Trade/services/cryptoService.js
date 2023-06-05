@@ -9,6 +9,28 @@ exports.buy = async (userId, cryptoId) => {
     // TODO check if user has already bought the crypto
     crypto.buyers.push(userId);
     await crypto.save();
-}
+};
+
+exports.edit = (cryptoId, cryptoData) => Crypto.findByIdAndUpdate(cryptoId, cryptoData);
 
 exports.create = (ownerId, cryptoData) => Crypto.create({ ...cryptoData, owner: ownerId });
+
+exports.delete = (cryptoId) => Crypto.findByIdAndDelete(cryptoId);
+
+exports.search = async (name, paymentMethod) => {
+
+    let crypto = await this.getAll();
+    
+    // const {name, paymentMethod} = req.query;
+    // const crypto = this.search(name, paymentMethod);
+
+    if(name) {
+        crypto = crypto.filter(x => x.toLowerCase() == name)
+    }
+
+    if(paymentMethod) {
+        crypto = crypto.filter(x => x.paymentMethod == paymentMethod)
+    }
+
+    return crypto;
+}
