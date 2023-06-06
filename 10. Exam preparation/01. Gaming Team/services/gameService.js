@@ -17,7 +17,7 @@ exports.getOne = (gameId) => Game.findById(gameId).lean();
 
 exports.create = (ownerId, gamesData) => Game.create({ ...gamesData, owner: ownerId });
 
-// exports.delete = (cryptoId) => Crypto.findByIdAndDelete(cryptoId);
+exports.delete = (gameId) => Game.findByIdAndDelete(gameId);
 
 // exports.search = async (name, paymentMethod) => {
 

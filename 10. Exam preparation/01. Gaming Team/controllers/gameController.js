@@ -80,15 +80,15 @@ router.get('/:gameId/details', async (req, res) => {
 //     res.redirect(`/crypto/${req.params.cryptoId}/details`);
 // })
 
-// // ----------------------------------DELETE---------------------------------------
+// ----------------------------------DELETE---------------------------------------
 
-// router.get('/:cryptoId/delete', isAuth, async (req, res) => {
+router.get('/:gameId/delete', isAuth, async (req, res) => {
 
-//     await cryptoService.delete(req.params.cryptoId)
+    await gameService.delete(req.params.gameId);
 
-//     res.redirect('/crypto/catalog');
+    res.redirect('/games/catalog');
 
-// });
+});
 
 // ---------------------------------CREATE-------------------------------------------
 
