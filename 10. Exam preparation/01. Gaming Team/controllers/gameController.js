@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { isAuth, isOwner } = require('../middlewares/authMiddleware');
+const { isAuth } = require('../middlewares/authMiddleware');
 const gameService = require('../services/gameService');
 const { platformMap } = require('../constants');
 
@@ -32,25 +32,25 @@ router.get('/:gameId/details', async (req, res) => {
     const game = await gameService.getOne(req.params.gameId);
 
     const isOwner = game.owner == req.user?._id;
-    const isBuyer = game.buyers?.some(id => id == req.user?._id);
+    const isBuyer = game.boughtBy?.some(id => id == req.user?._id);
 
 
     res.render('games/details', { game, isOwner, isBuyer });
 });
 
-// // --------------------------------BUY--------------------------------------
+// --------------------------------BUY--------------------------------------
 
-// router.get('/:cryptoId/buy', isAuth, async (req, res) => {
+router.get('/:gameId/buy', isAuth, async (req, res) => {
 
-//     try {
-//         await cryptoService.buy(req.user._id, req.params.cryptoId);
+    try {
+        await gameService.buy(req.user._id, req.params.gameId);
 
-//         res.redirect(`/crypto/${req.params.cryptoId}/details`);
-//     } catch (error) {
-//         return res.status(400).render('404', { error: getErrorMessage(error) });
-//     }
+        res.redirect(`/games/${req.params.gameId}/details`);
+    } catch (error) {
+        return res.status(400).render('home/404', { error: getErrorMessage(error) });
+    }
 
-// });
+});
 
 
 // ----------------------------------EDIT---------------------------------------

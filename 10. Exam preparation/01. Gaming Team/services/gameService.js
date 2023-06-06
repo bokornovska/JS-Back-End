@@ -5,13 +5,13 @@ exports.getAll = () => Game.find({}).lean();
 
 exports.getOne = (gameId) => Game.findById(gameId).lean();
 
-// exports.buy = async (userId, cryptoId) => {
+exports.buy = async (userId, gameId) => {
     
-//     const crypto = await Crypto.findById(cryptoId);
-//     // TODO check if user has already bought the crypto
-//     crypto.buyers.push(userId);
-//     await crypto.save();
-// };
+    const game = await Game.findById(gameId);
+    // TODO check if user has already bought the crypto
+    game.boughtBy.push(userId);
+    await game.save();
+};
 
 exports.edit = (gameId, gameData) => Game.findByIdAndUpdate(gameId, gameData, {runValidators: true});
 
