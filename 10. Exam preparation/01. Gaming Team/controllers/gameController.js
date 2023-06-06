@@ -17,13 +17,13 @@ router.get('/catalog', async (req, res) => {
 
 // // ------------------------------SEARCH-----------------------------------------
 
-// router.get('/search', async (req, res) => {
+router.get('/search', async (req, res) => {
 
-//     const { name, paymentMethod } = req.query;
-//     const crypto = await cryptoService.search(name, paymentMethod);
+    const { name, platform } = req.query;
+    const games = await gameService.search(name, platform);
 
-//     res.render('crypto/search', { crypto });
-// });
+    res.render('games/search', { games });
+});
 
 // -----------------------------DETAILS-----------------------------------
 

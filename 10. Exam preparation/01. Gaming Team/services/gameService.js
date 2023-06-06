@@ -19,20 +19,23 @@ exports.create = (ownerId, gamesData) => Game.create({ ...gamesData, owner: owne
 
 exports.delete = (gameId) => Game.findByIdAndDelete(gameId);
 
-// exports.search = async (name, paymentMethod) => {
+exports.search = async (name, platform) => {
 
-//     let crypto = await this.getAll();
+    let games = await this.getAll();
+    
+    if (name) {
+        games = games.filter(x => {
+            console.log(x.name);
+            console.log(name);
+            x.name.toLowerCase() == name.toLowerCase()
+        });
+        console.log(games)
+       
+    }
 
-//     // const {name, paymentMethod} = req.query;
-//     // const crypto = this.search(name, paymentMethod);
+    if (platform) {
+        games = games.filter(x => x.platform == platform);
+    }
 
-//     if (name) {
-//         crypto = crypto.filter(x => x.name.toLowerCase() == name)
-//     }
-
-//     if (paymentMethod) {
-//         crypto = crypto.filter(x => x.paymentMethod == paymentMethod)
-//     }
-
-//     return crypto;
-// }
+    return games;
+}
