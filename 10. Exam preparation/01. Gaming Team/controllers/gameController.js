@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
-const { isAuth } = require('../middlewares/authMiddleware');
+const { isAuth, isOwner } = require('../middlewares/authMiddleware');
 const gameService = require('../services/gameService');
-// const { paymentMethodsMap } = require('../constants');
+const { platformMap } = require('../constants');
 
 const { getErrorMessage } = require('../utils/errorUtils');
 
@@ -53,32 +53,42 @@ router.get('/:gameId/details', async (req, res) => {
 // });
 
 
-// // ----------------------------------EDIT---------------------------------------
+// ----------------------------------EDIT---------------------------------------
 
-// router.get('/:cryptoId/edit', isAuth, async (req, res) => {
+router.get('/:gameId/edit', isAuth, async (req, res) => {
 
-//     const crypto = await cryptoService.getOne(req.params.cryptoId);
+    const game = await gameService.getOne(req.params.gameId);
+    const isOwner = game.owner == req.user?._id;
 
-//     const paymentMethods = Object.keys(paymentMethodsMap).map(key => ({
-//         value: key,
-//         label: paymentMethodsMap[key],
-//         isSelected: crypto.paymentMethod == key,
-//     }));
+     if(isOwner){
 
+        const platform = Object.keys(platformMap).map(key => ({
+            value: key,
+            label: platformMap[key],
+            isSelected: game.platform == key,
+        }));
+    
+    
+        res.render('games/edit', { game, platform });
+     }else{
+        return res.render('home/404');
+     }
+  
+});
 
-//     res.render('crypto/edit', { crypto, paymentMethods });
-// });
+router.post('/:gameId/edit', isAuth, async (req, res) => {
 
-// router.post('/:cryptoId/edit', isAuth, async (req, res) => {
+    try {
+        const gameData = req.body;
 
-//     const cryptoData = req.body;
-
-//     await cryptoService.edit(req.params.cryptoId, cryptoData)
-//     //todo: check if owner
-
-
-//     res.redirect(`/crypto/${req.params.cryptoId}/details`);
-// })
+        await gameService.edit(req.params.gameId, gameData);
+    
+        res.redirect(`/games/${req.params.gameId}/details`); 
+    } catch (error) {
+        return res.status(400).render('games/create', { error: getErrorMessage(error) });
+    }
+    
+})
 
 // ----------------------------------DELETE---------------------------------------
 

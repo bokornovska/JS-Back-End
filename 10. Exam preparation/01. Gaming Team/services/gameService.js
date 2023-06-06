@@ -13,7 +13,7 @@ exports.getOne = (gameId) => Game.findById(gameId).lean();
 //     await crypto.save();
 // };
 
-// exports.edit = (cryptoId, cryptoData) => Crypto.findByIdAndUpdate(cryptoId, cryptoData, {runValidators: true});
+exports.edit = (gameId, gameData) => Game.findByIdAndUpdate(gameId, gameData, {runValidators: true});
 
 exports.create = (ownerId, gamesData) => Game.create({ ...gamesData, owner: ownerId });
 

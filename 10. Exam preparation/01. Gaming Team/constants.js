@@ -1,8 +1,10 @@
 exports.SECRET = 'SomeSecretSecret';
 
-exports.paymentMethodsMap = {
-    "crypto-wallet": "Crypto Wallet",
-    "credit-card": 'Credit Card',
-    "debit-card": "Debit Card",
-    "paypal": "PayPal"
+exports.platformMap = {
+    "PC": "PC",
+    "Nintendo": 'Nintendo',
+    "PS4": "PS4",
+    "PS5": "PS5",
+    "XBOX": "XBOX"
 };
+
