@@ -6,14 +6,14 @@ const gameService = require('../services/gameService');
 
 const { getErrorMessage } = require('../utils/errorUtils');
 
-// // ----------------------CATALOG-------------------------------------------
+// ----------------------CATALOG-------------------------------------------
 
-// router.get('/catalog', async (req, res) => {
+router.get('/catalog', async (req, res) => {
 
-//     const crypto = await cryptoService.getAll();
+    const games = await gameService.getAll();
 
-//     res.render('crypto/catalog', { crypto });
-// });
+    res.render('games/catalog', {games});
+});
 
 // // ------------------------------SEARCH-----------------------------------------
 

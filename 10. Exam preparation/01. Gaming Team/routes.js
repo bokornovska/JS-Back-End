@@ -8,7 +8,7 @@ const gameController = require('./controllers/gameController');
 router.use(homeController);
 router.use(authController);
 // router.use('/crypto', cryptoController);
-router.use('/game', gameController);
+router.use('/games', gameController);
 router.all('*', (req, res) => {
     res.render('home/404')
 })
