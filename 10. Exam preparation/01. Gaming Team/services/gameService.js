@@ -23,6 +23,11 @@ exports.search = async (name, platform) => {
 
     let games = await this.getAll();
     
+
+    if (platform) {
+        games = games.filter(x => x.platform == platform);
+    }
+
     if (name) {
         games = games.filter(x => {
             console.log(x.name);
@@ -32,10 +37,5 @@ exports.search = async (name, platform) => {
         console.log(games)
        
     }
-
-    if (platform) {
-        games = games.filter(x => x.platform == platform);
-    }
-
     return games;
 }
