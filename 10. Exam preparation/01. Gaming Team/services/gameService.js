@@ -3,7 +3,7 @@ const Game = require('../models/Game');
 exports.getAll = () => Game.find({}).lean();
 
 
-// exports.getOne = (cryptoId) => Crypto.findById(cryptoId).lean();
+exports.getOne = (gameId) => Game.findById(gameId).lean();
 
 // exports.buy = async (userId, cryptoId) => {
     

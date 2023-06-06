@@ -25,18 +25,18 @@ router.get('/catalog', async (req, res) => {
 //     res.render('crypto/search', { crypto });
 // });
 
-// // -----------------------------DETAILS-----------------------------------
+// -----------------------------DETAILS-----------------------------------
 
-// router.get('/:cryptoId/details', async (req, res) => {
+router.get('/:gameId/details', async (req, res) => {
 
-//     const crypto = await cryptoService.getOne(req.params.cryptoId);
+    const game = await gameService.getOne(req.params.gameId);
 
-//     const isOwner = crypto.owner == req.user?._id;
-//     const isBuyer = crypto.buyers?.some(id => id == req.user?._id);
+    const isOwner = game.owner == req.user?._id;
+    const isBuyer = game.buyers?.some(id => id == req.user?._id);
 
 
-//     res.render('crypto/details', { crypto, isOwner, isBuyer });
-// });
+    res.render('games/details', { game, isOwner, isBuyer });
+});
 
 // // --------------------------------BUY--------------------------------------
 
