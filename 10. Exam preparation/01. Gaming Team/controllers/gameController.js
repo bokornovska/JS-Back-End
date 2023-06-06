@@ -90,25 +90,25 @@ router.get('/catalog', async (req, res) => {
 
 // });
 
-// // ---------------------------------CREATE-------------------------------------------
+// ---------------------------------CREATE-------------------------------------------
 
-// router.get('/create', isAuth, (req, res) => {
-//     res.render('crypto/create');
-// });
+router.get('/create', isAuth, (req, res) => {
+    res.render('games/create');
+});
 
-// router.post('/create', isAuth, async (req, res) => {
+router.post('/create', isAuth, async (req, res) => {
 
-//     const cryptoData = req.body;
+    const gamesData = req.body;
 
-//     try {
-//         await cryptoService.create(req.user._id, cryptoData);
+    try {
+        await gameService.create(req.user._id, gamesData);
 
-//     } catch (error) {
-//         return res.status(400).render('crypto/create', { error: getErrorMessage(error) });
-//     }
+    } catch (error) {
+        return res.status(400).render('games/create', { error: getErrorMessage(error) });
+    }
 
-//     res.redirect('/crypto/catalog');
-// });
+    res.redirect('/games/catalog');
+});
 
 
 module.exports = router;

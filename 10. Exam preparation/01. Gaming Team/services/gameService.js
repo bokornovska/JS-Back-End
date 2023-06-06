@@ -15,7 +15,7 @@ exports.getAll = () => Game.find({}).lean();
 
 // exports.edit = (cryptoId, cryptoData) => Crypto.findByIdAndUpdate(cryptoId, cryptoData, {runValidators: true});
 
-// exports.create = (ownerId, cryptoData) => Crypto.create({ ...cryptoData, owner: ownerId });
+exports.create = (ownerId, gamesData) => Game.create({ ...gamesData, owner: ownerId });
 
 // exports.delete = (cryptoId) => Crypto.findByIdAndDelete(cryptoId);
 
