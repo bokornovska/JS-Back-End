@@ -20,7 +20,7 @@ async function checkIsOwner(req, res, next) {
 router.get('/catalog', async (req, res) => {
 
     const books = await bookService.getAll();
-    
+
     res.render('books/catalog', { books });
 });
 
@@ -44,7 +44,7 @@ router.get('/:bookId/details', async (req, res) => {
     const isInWishlist = book.wishList?.some(id => id == req.user?._id);
 
 
-    res.render('books/details', { book, isOwner, isInWishlist});
+    res.render('books/details', { book, isOwner, isInWishlist });
 });
 
 // --------------------------------WISH--------------------------------------
@@ -64,7 +64,7 @@ router.get('/:bookId/wish', isAuth, async (req, res) => {
 
 // ----------------------------------EDIT---------------------------------------
 
-router.get('/:bookId/edit', isAuth,checkIsOwner, async (req, res) => {
+router.get('/:bookId/edit', isAuth, checkIsOwner, async (req, res) => {
 
     const book = await bookService.getOne(req.params.bookId);
 
@@ -118,6 +118,22 @@ router.post('/create', isAuth, async (req, res) => {
 
     res.redirect('/books/catalog');
 });
+
+// ---------------------------------PROFILE----------------------------------------
+
+router.get('/profile', isAuth, async (req, res) => {
+
+    const userId = req.user._id;
+    let wished = await bookService.getMyWishBook(userId);
+    res.render('/books/profile');
+})
+
+// // router.get('/profile', isAuth, async (req, res) => {
+//     const userId = req.user._id;
+//     let wished = await bookServices.getMyWishBook(userId);
+//     res.render('profile', { title: 'Profile', wished });
+// });
+
 
 
 module.exports = router;
