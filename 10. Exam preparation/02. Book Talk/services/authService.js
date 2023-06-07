@@ -10,7 +10,7 @@ exports.findByEmail = (email) => User.findOne({ email });
 
 // ------------------------------REGISTER--------------------------------
 
-exports.register = async (username, email, password, repeatPassword) => {
+exports.register = async (email, username, password, repeatPassword) => {
 
     //Validate password
     if (password !== repeatPassword) {
@@ -38,7 +38,7 @@ exports.register = async (username, email, password, repeatPassword) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
 
-    await User.create({ username, email, password: hashedPassword });
+    await User.create({email, username, password: hashedPassword });
 
     return this.login(email, password);
 }

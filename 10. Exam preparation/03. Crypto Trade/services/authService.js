@@ -4,7 +4,6 @@ const jwt = require('../lib/jsonwebtoken');
 const { SECRET } = require('../constants');
 
 
-
 exports.findByUsername = (username) => User.findOne({ username });
 exports.findByEmail = (email) => User.findOne({ email });
 

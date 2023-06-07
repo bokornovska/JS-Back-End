@@ -3,27 +3,27 @@ const mongoose = require('mongoose');
 const bookSchema = new mongoose.Schema({
     title: {
         type: String,
-        // minLength:2,
+        minLength:2,
         required: true,
     },
     author: {
         type: String,
+        minLength:5,
         required: true,
-        // validate: /^https?:\/\//,
     },
     image: {
         type: String,
-        // min:0,
+        validate: /^https?:\/\//,
         required: true,
     },
     review: {
         type: String,
-        // minLength:10,
+        minLength:10,
         required: true,
     },
     genre: {
         type: String,
-        // minLength:10,
+        minLength:3,
         required: true,
     },
     stars: {
@@ -32,19 +32,15 @@ const bookSchema = new mongoose.Schema({
         max:[5, 'Stars must be between 1 and 5'],
         required: true,
     },
-    paymentMethod: {
-        type: String,
-        enum: ['crypto-wallet', 'credit-card', 'debit-card', 'paypal'],
-        required: true,
-    },
+    wishList: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+    }],
     owner: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
-    wishList: [{
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
-    }]
+    
 });
 
 const Book = mongoose.model('Book', bookSchema);

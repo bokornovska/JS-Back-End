@@ -12,11 +12,12 @@ router.get('/register', (req, res) => {
 
 router.post('/register', async (req, res) => {
 
-    const { username, email, password, repeatPassword } = req.body;
+    const { email, username, password, repeatPassword } = req.body;
+    
 
     try {
 
-        const token = await authService.register(username, email, password, repeatPassword);
+        const token = await authService.register(email, username, password, repeatPassword);
 
         res.cookie('auth', token);
         res.redirect('/');
