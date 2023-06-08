@@ -1,13 +1,29 @@
+<main>
+    <section id="login-section" class="narrow">
 
-    <section class="login-form-container">
+        <h1 class="item">Login</h1>
 
-        <form method="POST">
-            <h3>Login</h3>
-            <label>Email</label>
-            <input type="email" name="email" class="box" id="email">
-            <label>Password</label>
-            <input type="password" name="password" class="box" id="password">
-            <input type="submit" value="Login" class="btn">
-            <p>Don't have an account ? <a href="/register">Create one</a></p>
-        </form>
+        <div class="item padded align-center">
+
+            <form class="aligned" method="POST">
+
+                <label>
+                    <span>Email</span>
+                    <input type="text" name="email">
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" name="password">
+                </label>
+
+                <div class="align-center">
+                    <input class="action" type="submit" value="Sign In">
+                </div>
+
+            </form>
+
+        </div>
+
     </section>
+
+</main>
