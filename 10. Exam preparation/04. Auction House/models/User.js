@@ -4,17 +4,22 @@ const userSchema = new mongoose.Schema({
 
     email: {
         type: String,
-        minLength:10,
+        match: /^[A-Za-z]+@[A-Za-z]+\.[A-Za-z]+$/,
         required: [true, 'Email is required']
     },
-    username: {
+    firstName: {
         type: String,
-        minLength:4,
-        required: [true, 'Username is required']
+        minLength:1,
+        required: [true, 'First Name is required']
+    },
+    lastName: {
+        type: String,
+        minLength:1,
+        required: [true, 'Last Name is required']
     },
     password: {
         type: String,
-        minLength:3,
+        // minLength:5,
         required: true,
     }
 },
