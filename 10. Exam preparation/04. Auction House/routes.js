@@ -6,7 +6,7 @@ const auctionController = require('./controllers/auctionController');
 
 router.use(homeController);
 router.use(authController);
-router.use('/houses', auctionController);
+router.use('/auction', auctionController);
 router.all('*', (req, res) => {
     res.render('home/404')
 });

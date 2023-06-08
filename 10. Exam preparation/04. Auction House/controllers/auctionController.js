@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const { isAuth } = require('../middlewares/authMiddleware');
-// const bookService = require('../services/bookService');
+const auctionService = require('../services/auctionService');
 
 const { getErrorMessage } = require('../utils/errorUtils');
 
@@ -99,25 +99,25 @@ const { getErrorMessage } = require('../utils/errorUtils');
 
 // });
 
-// // ---------------------------------CREATE-------------------------------------------
+// ---------------------------------CREATE-------------------------------------------
 
-// router.get('/create', isAuth, (req, res) => {
-//     res.render('books/create');
-// });
+router.get('/create', isAuth, (req, res) => {
+    res.render('auction/create');
+});
 
-// router.post('/create', isAuth, async (req, res) => {
+router.post('/create', isAuth, async (req, res) => {
 
-//     const bookData = req.body;
+    const auctionData = req.body;
 
-//     try {
-//         await bookService.create(req.user._id, bookData);
+    try {
+        await auctionService.create(req.user._id, auctionData);
 
-//     } catch (error) {
-//         return res.status(400).render('books/create', { error: getErrorMessage(error) });
-//     }
+    } catch (error) {
+        return res.status(400).render('auction/create', { error: getErrorMessage(error) });
+    }
 
-//     res.redirect('/books/catalog');
-// });
+    res.redirect('/auction/catalog');
+});
 
 // // ---------------------------------PROFILE----------------------------------------
 

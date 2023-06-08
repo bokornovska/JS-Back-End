@@ -1,8 +1,10 @@
 exports.SECRET = 'SomeSecretSecret';
 
-exports.paymentMethodsMap = {
-    "crypto-wallet": "Crypto Wallet",
-    "credit-card": 'Credit Card',
-    "debit-card": "Debit Card",
-    "paypal": "PayPal"
+exports.category = {
+    "estate": "Real Estate",
+    "vehicles": 'Vehicles',
+    "furniture": "Furniture",
+    "electronics": "Electronics",
+    "other": "Other",
+
 };

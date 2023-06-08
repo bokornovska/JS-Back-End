@@ -14,7 +14,7 @@ const Auction = require('../models/Auction');
 
 // exports.edit = (bookId, bookData) => Book.findByIdAndUpdate(bookId, bookData, {runValidators: true});
 
-// exports.create = (ownerId, bookData) => Book.create({ ...bookData, owner: ownerId });
+exports.create = (ownerId, auctionData) => Auction.create({ ...auctionData, owner: ownerId });
 
 // exports.delete = (bookId) => Book.findByIdAndDelete(bookId);
 
