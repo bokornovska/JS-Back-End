@@ -18,8 +18,10 @@
                     </p>
 
                     <div class="align-center">
-                        <a class="action" href="#">Browse Listings</a>
-                        <a class="action" href="#">Publish Auction</a>
+                        <a class="action" href="/houses/catalog">Browse Listings</a>
+                        {{#if isAuthenticated}}
+                        <a class="action" href="/houses/publish">Publish Auction</a>
+                        {{/if}}
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@ exports.findByEmail = (email) => User.findOne({ email });
 
 // ------------------------------REGISTER--------------------------------
 
-exports.register = async (email, username, password, repeatPassword) => {
+exports.register = async (email, firstName, lastName, password, repeatPassword) => {
 
     //Validate password
     if (password !== repeatPassword) {
