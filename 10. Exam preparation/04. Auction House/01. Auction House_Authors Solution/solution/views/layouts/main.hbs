@@ -3,14 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/site.css">
-    <title>Auction House</title>
+    <title>{{title}}</title>
 </head>
 
 <body>
-
     <div id="page-content">
+
 
         <header>
             <a href="/" class="title-logo">
@@ -20,26 +21,18 @@
             <nav class="main-nav nav-mid">
                 <ul>
                     <li>
-                        <a href="/auction/catalog">Browse</a>
+                        <a href="/catalog">Browse</a>
                     </li>
-                    <!-- User actions -->
-                    {{#if isAuthenticated}}
-
+                    {{#if hasUser}}
                     <li class="user">
-                        <a href="/auction/create">Publish</a>
+                        <a href="/create">Publish</a>
                     </li>
-
-                    <!-- Bonus action -->
-                    <!--
                     <li class="user">
-                        <a href="#">Closed Auctions</a>
+                        <a href="/profile">Closed Auctions</a>
                     </li>
-                    -->
-
                     <li class="user">
                         <a href="/logout">Logout</a>
                     </li>
-                    <!-- Guest actions -->
                     {{else}}
                     <li class="guest">
                         <a href="/register">Register</a>
@@ -52,17 +45,22 @@
             </nav>
         </header>
 
-        {{#if error}}
-        <div class="error-box">
-            <p>{{error}}</p>
-        </div>
-        {{/if}}
+        <main>
+            {{#if errors}}
+            <div class="error-box">
+                {{#each errors}}
+                <p>{{msg}}</p>
+                {{/each}}
+            </div>
+            {{/if}}
 
-        {{{body}}}
+            <!-- Page content -->
+            {{{body}}}
+
+        </main>
 
         <footer>SoftUni &copy; 2022 | Design by Viktor Kostadinov</footer>
     </div>
-
 </body>
 
 </html>

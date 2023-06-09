@@ -1,8 +1,8 @@
 const Auction = require('../models/Auction');
 
-// exports.getAll = () => Book.find({}).lean();
+exports.getAll = () => Auction.find({}).lean();
 
-// exports.getOne = (bookId) => Book.findById(bookId).lean();
+exports.getOne = (auctionId) => Auction.findById(auctionId).lean();
 
 // exports.wish = async (userId, bookId) => {
     

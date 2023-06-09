@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const { isAuth } = require('../middlewares/authMiddleware');
 const auctionService = require('../services/auctionService');
+const { category } = require('../constants');
 
 const { getErrorMessage } = require('../utils/errorUtils');
 
@@ -15,14 +16,14 @@ const { getErrorMessage } = require('../utils/errorUtils');
 //     }
 // }
 
-// // ----------------------CATALOG-------------------------------------------
+// ----------------------CATALOG-------------------------------------------
 
-// router.get('/catalog', async (req, res) => {
+router.get('/catalog', async (req, res) => {
 
-//     const books = await bookService.getAll();
+    const auction = await auctionService.getAll();
 
-//     res.render('books/catalog', { books });
-// });
+    res.render('auction/catalog', { auction });
+});
 
 // // // ------------------------------SEARCH-----------------------------------------
 
@@ -34,18 +35,18 @@ const { getErrorMessage } = require('../utils/errorUtils');
 // //     res.render('crypto/search', { crypto });
 // // });
 
-// // -----------------------------DETAILS-----------------------------------
+// -----------------------------DETAILS-----------------------------------
 
-// router.get('/:bookId/details', async (req, res) => {
+router.get('/:auctionId/details', async (req, res) => {
 
-//     const book = await bookService.getOne(req.params.bookId);
+    const auction = await auctionService.getOne(req.params.auctionId);
 
-//     const isOwner = book.owner == req.user?._id;
-//     const isInWishlist = book.wishList?.some(id => id == req.user?._id);
+    const isOwner = auction.owner == req.user?._id;
+    // const isInWishlist = book.wishList?.some(id => id == req.user?._id);
 
 
-//     res.render('books/details', { book, isOwner, isInWishlist });
-// });
+    res.render('auction/details', { auction, isOwner });
+});
 
 // // --------------------------------WISH--------------------------------------
 
