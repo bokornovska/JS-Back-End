@@ -6,14 +6,14 @@ const adService = require('../services/adService');
 
 const { getErrorMessage } = require('../utils/errorUtils');
 
-// // ----------------------CATALOG-------------------------------------------
+// ----------------------CATALOG-------------------------------------------
 
-// router.get('/catalog', async (req, res) => {
+router.get('/catalog', async (req, res) => {
 
-//     const crypto = await cryptoService.getAll();
+    const ad = await adService.getAll();
 
-//     res.render('crypto/catalog', { crypto });
-// });
+    res.render('ad/catalog', { ad });
+});
 
 // // ------------------------------SEARCH-----------------------------------------
 
@@ -25,18 +25,18 @@ const { getErrorMessage } = require('../utils/errorUtils');
 //     res.render('crypto/search', { crypto });
 // });
 
-// // -----------------------------DETAILS-----------------------------------
+// -----------------------------DETAILS-----------------------------------
 
-// router.get('/:cryptoId/details', async (req, res) => {
+router.get('/:adId/details', async (req, res) => {
 
-//     const crypto = await cryptoService.getOne(req.params.cryptoId);
+    const ad = await adService.getOne(req.params.adId);
 
-//     const isOwner = crypto.owner == req.user?._id;
-//     const isBuyer = crypto.buyers?.some(id => id == req.user?._id);
+    const isAuthor = ad.author == req.user?._id;
+    const hasApplied = ad.usersApplied?.some(id => id == req.user?._id);
 
 
-//     res.render('crypto/details', { crypto, isOwner, isBuyer });
-// });
+    res.render('ad/details', { ad, isAuthor, hasApplied });
+});
 
 // // --------------------------------BUY--------------------------------------
 

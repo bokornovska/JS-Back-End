@@ -1,8 +1,8 @@
 const Ad = require('../models/Ad');
 
-// exports.getAll = () => Crypto.find({}).lean();
+exports.getAll = () => Ad.find({}).lean();
 
-// exports.getOne = (cryptoId) => Crypto.findById(cryptoId).lean();
+exports.getOne = (adId) => Ad.findById(adId).lean();
 
 // exports.buy = async (userId, cryptoId) => {
     
