@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // TODO : change database name
-const CONNECTION_STRING = 'mongodb://0.0.0.0:27017'
+const CONNECTION_STRING = 'mongodb://0.0.0.0:27017/demoDB'
 module.exports = async (app) => {
     try {
         await mongoose.connect(CONNECTION_STRING, {
