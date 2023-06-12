@@ -11,7 +11,7 @@
             </article>
 
             <article class="details-page-card-content">
-                <p>Author: {{user.email}}</p>
+                <p>Author: {{authorEmail}}</p>
                 <h2>Headline: {{ad.headline}}</h2>
                 <h3>Company name: {{ad.companyName}}</h3>
                 <h4>Company description: {{ad.companyDescription}}</h4>
@@ -33,7 +33,7 @@
 
                             {{else}}
                             <!--logged in user who did not apply for current ad-->
-                            <a href="/ad/apply" class="btn-apply">Apply now!</a>
+                            <a href="/ad/{{ad._id}}/apply" class="btn-apply">Apply now!</a>
                             <p class="applied-people">Hurry up, 1 people have already applied.</p>
                             {{/if}}
 
@@ -46,9 +46,11 @@
     </section>
 
     <!--This section should only be visible to the author of the current ad-->
-    <!--
+    {{#if isAuthenticated}}
+    {{#if isAuthor}}
             <section id="info-about-candidates">
                 <h2>Candidates for this ad:</h2>
+
                 <!\--If there are people who have applied, show each of them in the following format--\>
                 <article class="info-about-candidates-card">
                     <h2>Email: petar@abv.bg</h2>
@@ -60,6 +62,8 @@
                     <h3>Description of the candidate's skills: Experience with Node.js</h3>
                 </article>
                 <!\--If not, you don't need to visualize anything further-\->
-            </section>-->
+            </section>
+            {{/if}}
+            {{/if}}
 
 </main>

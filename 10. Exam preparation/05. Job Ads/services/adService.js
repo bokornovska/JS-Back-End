@@ -4,19 +4,19 @@ exports.getAll = () => Ad.find({}).lean();
 
 exports.getOne = (adId) => Ad.findById(adId).lean();
 
-// exports.buy = async (userId, cryptoId) => {
+exports.apply = async (userId, adId) => {
     
-//     const crypto = await Crypto.findById(cryptoId);
-//     // TODO check if user has already bought the crypto
-//     crypto.buyers.push(userId);
-//     await crypto.save();
-// };
+    const ad = await Ad.findById(adId);
+    // TODO check if user has already bought the crypto
+    ad.usersApplied.push(userId);
+    await ad.save();
+};
 
-// exports.edit = (cryptoId, cryptoData) => Crypto.findByIdAndUpdate(cryptoId, cryptoData, {runValidators: true});
+exports.edit = (adId, adData) => Ad.findByIdAndUpdate(adId, adData, {runValidators: true});
 
 exports.create = (authorId, adData) => Ad.create({ ...adData, author: authorId });
 
-// exports.delete = (cryptoId) => Crypto.findByIdAndDelete(cryptoId);
+exports.delete = (adId) => Ad.findByIdAndDelete(adId);
 
 // exports.search = async (name, paymentMethod) => {
 

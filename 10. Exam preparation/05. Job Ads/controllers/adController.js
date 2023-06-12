@@ -33,62 +33,58 @@ router.get('/:adId/details', async (req, res) => {
 
     const isAuthor = ad.author == req.user?._id;
     const hasApplied = ad.usersApplied?.some(id => id == req.user?._id);
+    const authorEmail = ad.author;
+    console.log(authorEmail);
+    // const usersApplied = Object.values(ad.usersApplied);
+    // console.log(usersApplied);
 
-
-    res.render('ad/details', { ad, isAuthor, hasApplied });
+    res.render('ad/details', { ad, authorEmail, isAuthor, hasApplied});
 });
 
-// // --------------------------------BUY--------------------------------------
+// // --------------------------------APPLY--------------------------------------
 
-// router.get('/:cryptoId/buy', isAuth, async (req, res) => {
+router.get('/:adId/apply', isAuth, async (req, res) => {
 
-//     try {
-//         await cryptoService.buy(req.user._id, req.params.cryptoId);
+    try {
+        await adService.apply(req.user._id, req.params.adId);
 
-//         res.redirect(`/crypto/${req.params.cryptoId}/details`);
-//     } catch (error) {
-//         return res.status(400).render('404', { error: getErrorMessage(error) });
-//     }
+        res.redirect(`/ad/${req.params.adId}/details`);
+    } catch (error) {
+        return res.status(400).render('404', { error: getErrorMessage(error) });
+    }
 
-// });
+});
 
 
 // // ----------------------------------EDIT---------------------------------------
 
-// router.get('/:cryptoId/edit', isAuth, async (req, res) => {
+router.get('/:adId/edit', isAuth, async (req, res) => {
 
-//     const crypto = await cryptoService.getOne(req.params.cryptoId);
+    const ad = await adService.getOne(req.params.adId);
 
-//     const paymentMethods = Object.keys(paymentMethodsMap).map(key => ({
-//         value: key,
-//         label: paymentMethodsMap[key],
-//         isSelected: crypto.paymentMethod == key,
-//     }));
+    res.render('ad/edit', { ad });
+});
 
+router.post('/:adId/edit', isAuth, async (req, res) => {
 
-//     res.render('crypto/edit', { crypto, paymentMethods });
-// });
+    const adData = req.body;
 
-// router.post('/:cryptoId/edit', isAuth, async (req, res) => {
-
-//     const cryptoData = req.body;
-
-//     await cryptoService.edit(req.params.cryptoId, cryptoData)
-//     //todo: check if owner
+    await adService.edit(req.params.adId, adData)
+    //todo: check if owner
 
 
-//     res.redirect(`/crypto/${req.params.cryptoId}/details`);
-// })
+    res.redirect(`/ad/${req.params.adId}/details`);
+})
 
-// // ----------------------------------DELETE---------------------------------------
+// ----------------------------------DELETE---------------------------------------
 
-// router.get('/:cryptoId/delete', isAuth, async (req, res) => {
+router.get('/:adId/delete', isAuth, async (req, res) => {
 
-//     await cryptoService.delete(req.params.cryptoId)
+    await adService.delete(req.params.adId)
 
-//     res.redirect('/crypto/catalog');
+    res.redirect('/ad/catalog');
 
-// });
+});
 
 // ---------------------------------CREATE-------------------------------------------
 
