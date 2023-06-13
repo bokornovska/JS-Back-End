@@ -1,9 +1,12 @@
 const { parseError } = require('../util/parser');
-const { create } = require('../services/hotelService')
+const { create, getById } = require('../services/hotelService')
 const hotelController = require('express').Router();
 
-hotelController.get('/:id/details', (req, res) => {
-    res.render('details')
+hotelController.get('/:id/details', async (req, res) => {
+    const hotel = await getById(req.params.id);
+    res.render('details', {
+        hotel
+    })
 });
 
 hotelController.get('/create', (req, res) => {
@@ -26,7 +29,7 @@ hotelController.post('/create', async (req, res) => {
             throw new Error('All fileds are required!')
         }
 
-        
+
         await create(hotel);
         res.redirect('/');
     } catch (error) {
