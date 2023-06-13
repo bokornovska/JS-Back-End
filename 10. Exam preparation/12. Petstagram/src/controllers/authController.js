@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+const { TOKEN_KEY } = require('../config/config');
 const authService = require('../services/authService');
 
 // ------------------------------------------------LOGIN---------------------------------------------------------
@@ -12,9 +13,12 @@ router.post('/login', async (req, res) => {
     // TODO: check if the fields are the same
     const { username, password } = req.body;
 
-    await authService.login(username, password);
+    const token = await authService.login(username, password);
 
-    res.send('Logged in')
+    res.cookie(TOKEN_KEY, token);
+
+    // TODO: check the redirect
+    res.redirect('/')
 });
 
 // ---------------------------------------------REGISTER------------------------------------------------
@@ -29,10 +33,16 @@ router.post('/register', async (req, res) => {
 
     await authService.register({ username, email, password, repass });
 
-    res.send('registered')
+   res.redirect('/auth/login');
+});
+
+// -----------------------------------------------LOGOUT-----------------------------------------------------
+
+router.get('/logout', (req,res) => {
+    res.clearCookie('token');
+
+    // TODO: chek redirection
+    res.redirect('/')
 })
-
-
-
 
 module.exports = router;
