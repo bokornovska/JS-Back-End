@@ -1,14 +1,43 @@
+const { parseError } = require('../util/parser');
+const { create } = require('../services/hotelService')
 const hotelController = require('express').Router();
 
-hotelController.get('/:id/details', (req,res) => {
+hotelController.get('/:id/details', (req, res) => {
     res.render('details')
 });
 
-hotelController.get('/create', (req,res) => {
+hotelController.get('/create', (req, res) => {
     res.render('create')
 });
 
-hotelController.get('/:id/edit', (req,res) => {
+hotelController.post('/create', async (req, res) => {
+    const hotel = {
+        name: req.body.name,
+        city: req.body.city,
+        imageUrl: req.body.imageUrl,
+        rooms: Number(req.body.rooms),
+        owner: req.user._id,
+    };
+
+    
+    try {
+
+        if(Object.values(hotel).some(v => !v)) {
+            throw new Error('All fileds are required!')
+        }
+
+        
+        await create(hotel);
+        res.redirect('/');
+    } catch (error) {
+        res.render('create', {
+            body: hotel,
+            errors: parseError(error)
+        })
+    }
+})
+
+hotelController.get('/:id/edit', (req, res) => {
     res.render('edit')
 });
 

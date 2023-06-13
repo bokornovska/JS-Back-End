@@ -12,6 +12,7 @@ module.exports = () => (req, res, next) => {
             // console.log('Read successful, user', userData.username);
 
             req.user = userData;
+            res.locals.username = userData.username;
 
         } catch (error) {
             // console.log('Invalid token')
