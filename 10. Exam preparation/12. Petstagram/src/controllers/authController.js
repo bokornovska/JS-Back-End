@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const { TOKEN_KEY } = require('../config/config');
 const authService = require('../services/authService');
-const {getErrorMessage} = require('../utils/error');
+const { getErrorMessage } = require('../utils/error');
 
 // ------------------------------------------------LOGIN---------------------------------------------------------
 router.get('/login', (req, res) => {
@@ -14,12 +14,18 @@ router.post('/login', async (req, res) => {
     // TODO: check if the fields are the same
     const { username, password } = req.body;
 
-    const token = await authService.login(username, password);
+    try {
+        const token = await authService.login(username, password);
 
-    res.cookie(TOKEN_KEY, token);
+        res.cookie(TOKEN_KEY, token);
 
-    // TODO: check the redirect
-    res.redirect('/')
+        // TODO: check the redirect
+        res.redirect('/')
+
+    } catch (err) {
+        res.render('auth/login', { error: getErrorMessage(err) })
+    }
+
 });
 
 // ---------------------------------------------REGISTER------------------------------------------------
@@ -27,7 +33,7 @@ router.get('/register', (req, res) => {
     res.render('auth/register');
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
 
     // TODO: check if fields are the same
     const { username, email, password, repass } = req.body;
@@ -37,7 +43,8 @@ router.post('/register', async (req, res) => {
         res.redirect('/auth/login');
 
     } catch (err) {
-        res.render('auth/register', { error: getErrorMessage(err) })
+        res.render('auth/register', { error: getErrorMessage(err) });
+        // next(err); //in index - errorHandler...???
     }
 
 

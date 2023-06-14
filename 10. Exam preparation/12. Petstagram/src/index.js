@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 
 const routes = require('./routes');
 const { authentication } = require('./middlewares/authMiddleware');
+const {errorHandler} = require('./middlewares/errorHandlerMiddleware')
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(authentication);
 app.use(routes);
+// app.use(errorHandler); ???? in authController/register
 
 // mongoose.set('strictQuery', false); //optional
 
