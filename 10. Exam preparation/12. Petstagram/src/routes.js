@@ -6,6 +6,9 @@ const authController = require('./controllers/authController');
 // TODO add controller routes
 router.use(homeController);
 router.use('/auth', authController);
+router.get('*', (req, res) => {
+    res.redirect('/404');
+});
 
 
 

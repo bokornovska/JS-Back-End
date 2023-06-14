@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const { TOKEN_KEY } = require('../config/config');
 const authService = require('../services/authService');
+const {getErrorMessage} = require('../utils/error');
 
 // ------------------------------------------------LOGIN---------------------------------------------------------
 router.get('/login', (req, res) => {
@@ -31,14 +32,20 @@ router.post('/register', async (req, res) => {
     // TODO: check if fields are the same
     const { username, email, password, repass } = req.body;
 
-    await authService.register({ username, email, password, repass });
+    try {
+        await authService.register({ username, email, password, repass });
+        res.redirect('/auth/login');
 
-   res.redirect('/auth/login');
+    } catch (err) {
+        res.render('auth/register', { error: getErrorMessage(err) })
+    }
+
+
 });
 
 // -----------------------------------------------LOGOUT-----------------------------------------------------
 
-router.get('/logout', (req,res) => {
+router.get('/logout', (req, res) => {
     res.clearCookie('token');
 
     // TODO: chek redirection

@@ -8,13 +8,17 @@
 </head>
 
 <body>
+
+    {{#if error}}
     <!--Error Container-->
 
-    <!-- <div>
+     <div>
         <div class="errorContainer">
-            <p>Error</p>
+            <p>{{error}}</p>
         </div>
-    </div> -->
+    </div>
+
+    {{/if}}
 
     <header>
         <nav class="navbar">
@@ -32,55 +36,48 @@
 
                 <div class="nav-links">
                     <ul class="nav-group">
-                        <li class="nav-item">
-
-                            <a href="#">
-                                <i>Catalog</i>
-                            </a>
-                        </li>
-
-                        <!--For Guest User-->
-                        <li class="nav-item">
-
-                            <a href="/auth/login">
-                                <i>Login</i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-
-                            <a href="/auth/register">
-                                <i>Register</i>
-                            </a>
-                        </li>
+                        <li class="nav-item"><a href="#"><i>Catalog</i></a></li>
 
                         <!--For login users-->
+                        {{#if isAuthenticated}}
                         <li class="nav-item">
-
                             <a href="#">
                                 <i>Add Photo</i>
                             </a>
                         </li>
 
                         <li class="nav-item">
-
                             <a href="#">
                                 <i>Profile</i>
                             </a>
                         </li>
 
                         <li class="nav-item">
-
                             <a href="/auth/logout">
                                 <i>Logout</i>
                             </a>
                         </li>
+
+                        {{else}}
+                        <!--For Guest User-->
+                        <li class="nav-item">
+                            <a href="/auth/login">
+                                <i>Login</i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/auth/register">
+                                <i>Register</i>
+                            </a>
+                        </li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-{{{body}}}
+    {{{body}}}
 
     <div class="footer">
         <span class="footer-section">
