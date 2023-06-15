@@ -2,13 +2,16 @@ const router = require('express').Router();
 
 const homeController = require('./controllers/homeController');
 const authController = require('./controllers/authController');
+const photoController = require('./controllers/photoController');
+
 
 // TODO add controller routes
 router.use(homeController);
 router.use('/auth', authController);
-router.get('*', (req, res) => {
-    res.redirect('/404');
-});
+router.use('/photos', photoController);
+// router.get('*', (req, res) => {
+//     res.redirect('/404');
+// });
 
 
 
