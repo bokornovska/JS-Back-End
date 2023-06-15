@@ -38,7 +38,7 @@
                                 </a>
 
                                 <!--Delete Pet Photo -->
-                                <a href="#">
+                                <a href="/photos/{{photo._id}}/delete">
                                     <img class="bin-img" src="/static/images/icon-remove-22.jpg" alt="bin button">
                                 </a>
                             </div>
@@ -69,6 +69,8 @@
                         <p class="petName">Name: {{photo.name}}</p>
                         <p class="petAge">Age: {{photo.age}}</p>
                     </div>
+
+
                     <div class="comments">
                         <div class="comments-top">
                             <div class="userDetails">
@@ -118,16 +120,22 @@
                             </div>
                         </div>
                     </div>
+
+
                 </div>
+                {{#if isAuthenticated}}
+                {{#unless isOwner}}
                 <div class="addComments">
                     <!-- Start Add Comments Form -->
-                    <form method="#" action="#">
+                    <form method="POST" >
                         <textarea id="comment-textarea" name="" cols="40" rows="10"
                             placeholder="Add comment..."></textarea>
                         <!-- Post Comments Button -->
                         <button type="submit">Post</button>
                     </form>
                 </div>
+                {{/unless}}
+                {{/if}}
             </div>
         </div>
     </div>

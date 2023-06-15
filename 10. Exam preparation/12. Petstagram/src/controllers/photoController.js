@@ -37,10 +37,23 @@ router.get('/:photoId/details', async (req, res) => {
     const photoId = req.params.photoId;
     const photo = await photoService.getOne(photoId);
     // if it's populated - photo.owner._id // if it`s not photo.owner;
-    const isOwner = req.user._id == photo.owner._id;
+    const isOwner = req.user?._id == photo.owner._id;
 
     res.render('photos/details', { photo, isOwner });
-})
+});
 
+// ---------------------------------------------------DELETE--------------------------------------------------------------
+
+router.get('/:photoId/delete', async (req,res) => {
+
+    const photoId = req.params.photoId;
+
+    try {
+        await photoService.delete(photoId);
+        res.redirect('/photos/catalog')
+    } catch (error) {
+        res.render(`photos/details`, {error: 'Cannot delete photo'})
+    }
+})
 
 module.exports = router;
