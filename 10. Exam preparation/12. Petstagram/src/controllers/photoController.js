@@ -44,7 +44,7 @@ router.get('/:photoId/details', async (req, res) => {
 
 // ---------------------------------------------------DELETE--------------------------------------------------------------
 
-router.get('/:photoId/delete', async (req,res) => {
+router.get('/:photoId/delete', async (req, res) => {
 
     const photoId = req.params.photoId;
 
@@ -52,7 +52,46 @@ router.get('/:photoId/delete', async (req,res) => {
         await photoService.delete(photoId);
         res.redirect('/photos/catalog')
     } catch (error) {
-        res.render(`photos/details`, {error: 'Cannot delete photo'})
+        res.render(`photos/details`, { error: 'Cannot delete photo' })
+    }
+});
+
+// --------------------------------------------------EDIT---------------------------------------------------------------
+
+router.get('/:photoId/edit', async (req, res) => {
+
+    const photo = await photoService.getOne(req.params.photoId);
+
+    res.render('photos/edit', { photo })
+});
+
+router.post('/:photoId/edit', async (req, res) => {
+
+    const photoId = req.params.photoId;
+    const photoData = req.body;
+
+    try {
+        await photoService.edit(photoId, photoData);
+
+        res.redirect(`/photos/${photoId}/details`)
+    } catch (error) {
+        res.render(`photos/edit`, { error: 'Unable to edit photo', ...photoData });
+    }
+});
+
+// -----------------------------------ADD COMMENT--------------------------------------------------------------------------
+
+router.post('/:photoId/commnets', async (req, res) => {
+
+    const photoId = req.params.photoId;
+    const { comment } = req.body;
+    const user = req.user._id;
+
+    try {
+        await photoService.addComment(photoId, { user, comment });
+        res.redirect(`/photos/${photoId}/details`)
+    } catch (error) {
+        console.log(error.message);
     }
 })
 
