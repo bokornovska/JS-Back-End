@@ -25,9 +25,11 @@ router.post('/create', async (req,res) => {
 });
 
 // ---------------------------------------------------CATALOG----------------------------------------------------------
-router.get('/catalog', (req,res) => {
-    res.render('/photos/catalog');
-})
+router.get('/catalog', async(req,res) => {
+
+    const photos = await photoService.getAll();
+    res.render('photos/catalog', {photos});
+});
 
 
 module.exports = router;
