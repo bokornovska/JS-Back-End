@@ -17,17 +17,10 @@ exports.login = async (username, password) => {
 
     if (!isValid) {
         throw new Error('Invalid username ot password')
-
     }
 
-    const payload = {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-    };
-
-    const token = await jwt.sign(payload, SECRET);
-
+    const token = await createToken(user);
+    
     return token;
 
 };
@@ -41,9 +34,24 @@ exports.register = async (userData) => {
         throw new Error('Username is taken');
     };
 
-    return User.create(userData);
+    // return User.create(userData); (if not auto login)
+
+    // if auto login after registration:
+    const createdUser = await User.create(userData);
+
+    const token = await createToken(createdUser);
+    return token;
+    
 }
 
-exports.logout = () => {
+async function createToken(user){
+    const payload = {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+    };
 
+    const token = await jwt.sign(payload, SECRET);
+
+    return token;
 }
