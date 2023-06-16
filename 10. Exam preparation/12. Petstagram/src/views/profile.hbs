@@ -18,7 +18,7 @@
                 <div class="data">
 
                     <!-- Total Number of Photos by the User -->
-                    <span>4</span>
+                    <span>{{photoCount}}</span>
                     <p>photos</p>
 
                 </div>
@@ -31,16 +31,17 @@
         <div class="pet-photos">
 
             <!-- Link to Uploaded Pet Photo -->
-            <a href="#">
+            {{#each photos}}
+            <a href="/photos/{{this._id}}/details">
                 <!-- Pet Photo -->
-                <img src="https://i.natgeofe.com/n/de94c416-6d23-45f5-9708-e8d56289268e/naturepl_01132178.jpg?w=636&h=631"
-                    alt="pet img">
+                <img src="{{image}}" alt="{{name}}">
             </a>
-
+            {{else}}
             <!--If there are no photo yet!-->
             <article class="not-available-photo">
                 <h1>You haven't uploaded photos yet…</h1>
             </article>
+            {{/each}}
         </div>
 
     </div>

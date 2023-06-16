@@ -1,15 +1,20 @@
 const router = require('express').Router();
 
-router.get('/', (req,res) => {
+const photoService = require('../services/photoService');
+const { isAuth } = require('../middlewares/authMiddleware');
+
+router.get('/', (req, res) => {
     res.render('home');
 });
 
-router.get('/404', (req,res) => {
+router.get('/404', (req, res) => {
     res.render('404');
 });
 
-router.get('/profile', async (req,res) => {
-    res.render('profile')
+router.get('/profile', isAuth, async (req, res) => {
+
+    const photos = await photoService.getByOwner(req.user._id).lean();
+    res.render('profile', { photos, photoCount: photos.length });
 })
 
 module.exports = router;
