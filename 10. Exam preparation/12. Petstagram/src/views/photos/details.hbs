@@ -20,13 +20,8 @@
                             </div>
                         </div>
                         <h3>
+                            <p> {{photo.owner.username}} </p>
 
-                
-                            <p>
-                              
-                                {{photo.owner.username}}
-                            </p>
-                         
                             <span>{{photo.location}}</span>
 
                             {{#if isOwner}}
@@ -51,7 +46,7 @@
 
                 <!-- Start Pet Photo -->
                 <div class="imgBx">
-                  
+
                     <img src="{{photo.image}}" alt="post" class="cover">
                 </div>
 
@@ -73,10 +68,10 @@
 
                     <div class="comments">
                         <div class="comments-top">
-                            {{#each photo.commentList}}
+                            {{#each photo.comments}}
                             {{>comment}}
                             {{/each}}
-                         
+
                         </div>
                     </div>
 
@@ -85,11 +80,11 @@
                 {{#if isAuthenticated}}
                 {{#unless isOwner}}
                 <div class="addComments">
-                   
+
                     <form method="POST" action="/photos/{{photo._id}}/commnets">
-                        <textarea id="comment-textarea" name="comment" cols="40" rows="10"
+                        <textarea id="comment-textarea" name="message" cols="40" rows="10"
                             placeholder="Add comment..."></textarea>
-                        
+
                         <button type="submit">Post</button>
                     </form>
                 </div>

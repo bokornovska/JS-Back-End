@@ -35,7 +35,7 @@ router.get('/catalog', async (req, res) => {
 
 router.get('/:photoId/details', async (req, res) => {
     const photoId = req.params.photoId;
-    const photo = await photoService.getOne(photoId);
+    const photo = await photoService.getOne(photoId).populate('comments.user').lean();
     // if it's populated - photo.owner._id // if it`s not photo.owner;
     const isOwner = req.user?._id == photo.owner._id;
 
@@ -84,15 +84,13 @@ router.post('/:photoId/edit', async (req, res) => {
 router.post('/:photoId/commnets', async (req, res) => {
 
     const photoId = req.params.photoId;
-    const { comment } = req.body;
+    const { message } = req.body;
     const user = req.user._id;
+    
+  
+        await photoService.addComment(photoId, { user, message });
+        res.redirect(`/photos/${photoId}/details`);
 
-    try {
-        await photoService.addComment(photoId, { user, comment });
-        res.redirect(`/photos/${photoId}/details`)
-    } catch (error) {
-        console.log(error.message);
-    }
 })
 
 module.exports = router;

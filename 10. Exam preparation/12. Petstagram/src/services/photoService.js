@@ -5,7 +5,7 @@ exports.create = (ownerId, photoData) => Photo.create({ ...photoData, owner: own
 // populate(if want to display owner info)
 exports.getAll = () => Photo.find().lean().populate('owner');
 
-exports.getOne = (photoId) => Photo.findById(photoId).lean().populate('owner').populate('commentList.user');
+exports.getOne = (photoId) => Photo.findById(photoId).populate('owner');
 
 exports.delete = (photoId) => Photo.findByIdAndDelete(photoId);
 
@@ -14,7 +14,7 @@ exports.edit = (photoId, photoData) => Photo.findByIdAndUpdate(photoId, photoDat
 exports.addComment = async (photoId, commentData) => {
     const photo = await Photo.findById(photoId);
 
-    photo.commentList.push(commentData);
+    photo.comments.push(commentData);
 
     return photo.save();
 };
