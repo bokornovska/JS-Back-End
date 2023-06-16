@@ -14,7 +14,7 @@ router.get('/404', (req, res) => {
 router.get('/profile', isAuth, async (req, res) => {
 
     const trips = await tripService.getByOwner(req.user._id).lean();
-    res.render('profile', { trips });
+    res.render('profile', { trips, tripsCount: trips.length });
 })
-// photoCount: photos.length
+
 module.exports = router;

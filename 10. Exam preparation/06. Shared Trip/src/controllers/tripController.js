@@ -36,11 +36,20 @@ router.get('/catalog', async (req, res) => {
 router.get('/:tripId/details', async (req, res) => {
     const tripId = req.params.tripId;
     const trip = await tripService.getOne(tripId).lean();
+    let tripSeats = trip.seats;
+    
+    const emails = await tripService.getBuddiesEmails(tripId);
+    console.log(emails);
+    
+    
     // if it's populated - photo.owner._id // if it`s not photo.owner;
     const isCreator = req.user?._id == trip.creator._id;
-    console.log(isCreator)
+    
+    // const hasJoined = req.user?._id == trip.buddies._id;
 
-    res.render('trips/details', { trip, isCreator });
+    // console.log(hasJoined)
+
+    res.render('trips/details', { trip, isCreator, tripSeats });
 });
 
 // ---------------------------------------------------DELETE--------------------------------------------------------------
@@ -70,6 +79,7 @@ router.post('/:tripId/edit', async (req, res) => {
 
     const tripId = req.params.tripId;
     const tripData = req.body;
+    
     try {
         await tripService.edit(tripId, tripData);
 
@@ -79,18 +89,22 @@ router.post('/:tripId/edit', async (req, res) => {
     }
 });
 
-// // -----------------------------------ADD COMMENT--------------------------------------------------------------------------
+// -----------------------------------JOIN TRIP--------------------------------------------------------------------------
 
-// router.post('/:photoId/commnets', async (req, res) => {
+router.get('/:tripId/join', async (req, res) => {
 
-//     const photoId = req.params.photoId;
-//     const { message } = req.body;
-//     const user = req.user._id;
     
-  
-//         await photoService.addComment(photoId, { user, message });
-//         res.redirect(`/photos/${photoId}/details`);
+    try {
+        await tripService.join(req.user._id, req.params.tripId);
 
-// })
+
+        res.redirect(`/trips/${req.params.tripId}/details`);
+    } catch (error) {
+        return res.status(400).render('404', { error: getErrorMessage(error) });
+    }
+
+});
+
+
 
 module.exports = router;

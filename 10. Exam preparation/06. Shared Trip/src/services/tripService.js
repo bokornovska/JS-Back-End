@@ -20,3 +20,29 @@ exports.edit = (tripId, tripData) => Trip.findByIdAndUpdate(tripId, tripData);
 // };
 
 exports.getByOwner = (userId) => Trip.find({creator: userId});
+
+exports.join = async (userId, tripId) => {
+    
+    const trip = await Trip.findById(tripId);
+    // TODO check if user has already bought the crypto
+    trip.buddies.push(userId);
+    trip.seats = trip.seats - 1;
+    await trip.save();
+};
+
+exports.getBuddiesEmails = async (tripId) => {
+    try {
+      const trip = await Trip.findById(tripId).populate('buddies.user', 'email');
+      
+      if (!trip) {
+        throw new Error('Trip not found');
+      }
+      
+      const emails = trip.buddies.map(buddy => buddy.user.email);
+      
+      return emails;
+    } catch (error) {
+      console.error('Error getting buddies emails:', error);
+      throw error;
+    }
+  }
