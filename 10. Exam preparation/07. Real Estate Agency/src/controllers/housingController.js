@@ -110,7 +110,7 @@ router.post('/:houseId/edit', async (req, res) => {
 
 // })
 
-// -----------------------------------------
+// -----------------------------------------RENT----------------------------------------------------------
 router.get('/:houseId/rent', isAuth, async (req, res) => {
 
     try {
@@ -122,5 +122,31 @@ router.get('/:houseId/rent', isAuth, async (req, res) => {
     }
 
 });
+
+// ------------------------------SEARCH-----------------------------------------
+
+router.get('/search', async (req, res) => {
+
+    const { type } = req.query;
+    const house = await housingService.search(type);
+  
+    res.render('housing/search', { house });
+
+});
+
+// router.get('/search', async (req, res) => {
+//     let houseType = req.query.type;
+
+//     let house = await housingService.search(houseType);
+
+//     if (house == undefined) {
+//         house = await housingService.getAll();
+//     }
+
+//     console.log(house);
+
+//     res.render('housing/search', { house })
+// })
+
 
 module.exports = router;

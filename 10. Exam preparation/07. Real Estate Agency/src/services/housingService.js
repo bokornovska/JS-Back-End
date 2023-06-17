@@ -20,6 +20,21 @@ exports.rent = async (userId, houseId) => {
     await house.save();
 };
 
+exports.search = async (type) => {
+
+    let house = await this.getAll();
+    
+    // const {name, paymentMethod} = req.query;
+    // const crypto = this.search(name, paymentMethod);
+
+    if (type) {
+        house = house.filter(x => x.type.toLowerCase() == type.toLowerCase())
+    }
+
+    return house;
+}
+
+
 // exports.addComment = async (photoId, commentData) => {
 //     const photo = await Photo.findById(photoId);
 
