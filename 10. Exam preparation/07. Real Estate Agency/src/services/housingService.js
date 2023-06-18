@@ -14,6 +14,7 @@ exports.edit = (houseId, houseData) => House.findByIdAndUpdate(houseId, houseDat
 exports.rent = async (userId, houseId) => {
     
     const house = await House.findById(houseId);
+    
     // TODO check if user has already bought the crypto
     house.availablePieces = house.availablePieces - 1;
     house.rented.push(userId);

@@ -37,21 +37,28 @@ router.get('/catalog', async (req, res) => {
 
 router.get('/:houseId/details', async (req, res) => {
     const houseId = req.params.houseId;
-    const house = await housingService.getOne(houseId).lean();
+    const house = await housingService.getOne(houseId).populate('rented', 'name').lean();
     // if it's populated - photo.owner._id // if it`s not photo.owner;
     const isOwner = req.user?._id == house.owner;
     let availablePieces = false;
     let isRented = false;
+    let hasRented = false;
     if (house.rented.length > 0) {
         isRented = true;
     };
-    if(house.availablePieces > 0){
+    if (house.availablePieces > 0) {
         availablePieces = true;
     };
 
-    const hasRented = house.rented?.some(id => id == req.user?._id)
-    
-    res.render('housing/details', { house, isRented, isOwner, availablePieces, hasRented });
+    const rentedNames = house.rented.map(user => user.name);
+    const rentedId = house.rented.map(user => user._id);
+
+    if(rentedId.toString().includes(req.user._id)){
+        hasRented =true;
+    }
+
+
+    res.render('housing/details', { house, isRented, isOwner, availablePieces, hasRented, rentedNames });
 });
 
 // ---------------------------------------------------DELETE--------------------------------------------------------------
@@ -70,14 +77,14 @@ router.get('/:houseId/delete', async (req, res) => {
 
 // --------------------------------------------------EDIT---------------------------------------------------------------
 
-router.get('/:houseId/edit', async (req, res) => {
+router.get('/:houseId/edit', isAuth, async (req, res) => {
 
     const house = await housingService.getOne(req.params.houseId).lean();
 
     res.render('housing/edit', { house })
 });
 
-router.post('/:houseId/edit', async (req, res) => {
+router.post('/:houseId/edit', isAuth, async (req, res) => {
 
     const houseId = req.params.houseId;
     const houseData = req.body;
@@ -88,7 +95,6 @@ router.post('/:houseId/edit', async (req, res) => {
         //     res.render(`housing/edit`, { error: "Invalid type. Only 'Apartment', 'Villa', 'House' is allowed." })
         // };
         await housingService.edit(houseId, houseData);
-
 
         res.redirect(`/housing/${houseId}/details`)
     } catch (error) {
@@ -129,7 +135,7 @@ router.get('/search', async (req, res) => {
 
     const { type } = req.query;
     const house = await housingService.search(type);
-  
+
     res.render('housing/search', { house });
 
 });

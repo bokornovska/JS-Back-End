@@ -1,10 +1,11 @@
 const router = require('express').Router();
 
-
+const housingService = require('../services/housingService')
 const { isAuth } = require('../middlewares/authMiddleware');
 
-router.get('/', (req, res) => {
-    res.render('home');
+router.get('/', async (req, res) => {
+    const houses = await housingService.getAll().limit(3);
+    res.render('home', {houses});
 });
 
 router.get('/404', (req, res) => {

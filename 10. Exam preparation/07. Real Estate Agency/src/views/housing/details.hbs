@@ -15,7 +15,7 @@
 
                         <!-- if there are already tenants of the housing, separate their names with a comma and a space ", "  -->
                         {{#if isRented}}
-                        <p>People rented this housing: Alex Petkov, Ivan Dobrev</p>
+                        <p>People rented this housing: {{rentedNames}}</p>
                         {{else}}
                         <!-- If not display: -->
                         <p>People rented this housing: There are no tenants yet.</p>
