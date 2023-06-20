@@ -28,5 +28,10 @@ router.post('/login', async (req, res) => {
         })
     }
 
+});
+
+router.get('/logout', (req,res) => {
+    // Invalidate token
+    res.end();
 })
 module.exports = router;
