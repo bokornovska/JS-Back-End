@@ -1,10 +1,15 @@
 const router = require('express').Router();
 const furnitureManager = require('../managers/furnitureManager');
 
+router.get('/', async (req,res) => {
+    const furnitures = await furnitureManager.getAll();
+
+    res.json(furnitures);
+})
 router.post('/', async (req,res) => {
 try {
     await furnitureManager.create(req.body);
-    res.status(204).end();
+    res.status(201).end();
     
 } catch (error) {
     res.status(400).json({

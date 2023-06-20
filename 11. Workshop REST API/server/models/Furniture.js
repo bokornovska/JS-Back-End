@@ -34,4 +34,4 @@ const furnitureSchema = new mongoose.Schema({
 
 const Furniture = mongoose.model('Furniture', furnitureSchema);
 
-mosule.exports = Furniture;
+module.exports = Furniture;
