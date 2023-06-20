@@ -20,4 +20,4 @@ userSchema.pre('save', async function() {
 
 const User = mongoose.model('User', userSchema);
 
-mosule.exports = User;
+module.exports = User;
