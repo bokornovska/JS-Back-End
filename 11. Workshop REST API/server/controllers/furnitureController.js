@@ -5,10 +5,15 @@ router.get('/', async (req,res) => {
     const furnitures = await furnitureManager.getAll();
 
     res.json(furnitures);
-})
+});
+
+
 router.post('/', async (req,res) => {
 try {
-    await furnitureManager.create(req.body);
+    await furnitureManager.create({
+        ...req.body,
+        _ownerId:req.user._id
+    });
     res.status(201).end();
     
 } catch (error) {
@@ -17,5 +22,18 @@ try {
     })
 }
 
-})
+});
+
+router.get('/:furnitureId', async(req,res) => {
+    const furniture = await furnitureManager.getOne(req.params.furnitureId);
+
+    res.json(furniture);
+});
+
+router.put('/:furnitureId', async(req,res) => {
+    await furnitureManager.update(req.params.furnitureId, req.body);
+
+    res.status(204).end();
+});
+
 module.exports = router;
