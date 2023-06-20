@@ -2,7 +2,8 @@ const router = require('express').Router();
 const furnitureManager = require('../managers/furnitureManager');
 
 router.get('/', async (req,res) => {
-    const furnitures = await furnitureManager.getAll();
+   
+    const furnitures = await furnitureManager.getAll(req.query);
 
     res.json(furnitures);
 });
@@ -32,6 +33,12 @@ router.get('/:furnitureId', async(req,res) => {
 
 router.put('/:furnitureId', async(req,res) => {
     await furnitureManager.update(req.params.furnitureId, req.body);
+
+    res.status(204).end();
+});
+
+router.delete('/:furnitureId', async(req,res) => {
+    await furnitureManager.update(req.params.furnitureId);
 
     res.status(204).end();
 });
